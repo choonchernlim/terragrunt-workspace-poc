@@ -34,3 +34,4 @@ override.tf.json
 backend.tf
 .terraform
 .terragrunt-cache
+.terraform.lock.hcl

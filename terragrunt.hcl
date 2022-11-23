@@ -1,8 +1,14 @@
+# variables to be injected to all child modules
 inputs = {
   parent_folder_id = "folders/33591644343"
 }
 
-# creates GCS bucket for storing states
+# GA'd version to be applied to all customers
+terraform {
+  source = "git@github.com:choonchernlim/terragrunt-module-poc.git//folder?ref=v1.0.0"
+}
+
+# GCS bucket for storing states
 remote_state {
   backend = "gcs"
 
