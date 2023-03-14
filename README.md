@@ -69,6 +69,5 @@ terraform {
 Then, run these commands:
 
 ```shell
-ENVIRONMENT=dev terragrunt run-all plan    
 ENVIRONMENT=dev terragrunt run-all apply
 ```
