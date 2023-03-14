@@ -1,4 +1,6 @@
-# terragrunt-workspace-poc
+# Terragrunt Workspace POC
+
+An example on how you might configure your Git Repo to provision resources like cattle using Terragrunt.
 
 ## Setup
 
