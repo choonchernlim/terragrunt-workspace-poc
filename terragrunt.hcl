@@ -1,9 +1,9 @@
-# variables to be injected to all child modules
-inputs = {
-  parent_folder_id = "folders/33591644343"
+# Read env-based config
+locals {
+  config = yamldecode(file("${get_repo_root()}/env/${get_env("ENVIRONMENT")}.yml"))
 }
 
-# GA'd version to be applied to all customers
+# Module and its version to be applied to all customers
 terraform {
   source = "git@github.com:choonchernlim/terragrunt-module-poc.git//folder?ref=v1.0.0"
 }
@@ -13,9 +13,9 @@ remote_state {
   backend = "gcs"
 
   config = {
-    bucket   = "gcp-terragrunt-demo-1"
-    project  = "level-clone-350517"
-    location = "us-central1"
+    bucket   = local.config.backend.bucket
+    project  = local.config.backend.project
+    location = local.config.backend.location
     prefix   = path_relative_to_include()
   }
 
@@ -25,4 +25,10 @@ remote_state {
   }
 }
 
+# Don't run at root hcl (ie: don't set up backend, etc)
 skip = true
+
+# variables to be injected to all child modules
+inputs = {
+  parent_folder_id = local.config.parent_folder_id
+}
