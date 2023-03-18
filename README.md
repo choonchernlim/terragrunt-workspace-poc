@@ -1,24 +1,25 @@
 # Terragrunt Workspace POC
 
-An example on how you might configure your Git Repo to provision resources like cattle using Terragrunt.
+A very opinionated way to provision GCP resources like cattle using Terragrunt.
 
 ## Setup
 
-If service account is not activated, use your credential:
+If service account is not used, use your credential instead:
 
 ```shell
 gcloud auth login && gcloud auth application-default login    
 ```
 
-Update `vars/dev.yml` to point to your project and buckets.
+Expose the following environment variables:
 
-```
-export ENVIRONMENT=dev 
-export TF_BACKEND_PROJECT=level-clone-350517 
-export TF_BACKEND_BUCKET=gcp-terragrunt-demo-1 
-export TF_BACKEND_LOCATION=us-central1 
+```shell
+# Load tfvars/dev.tfvars 
+export ENVIRONMENT=dev
 
-terragrunt run-all plan
+# For remote state configuration, replace the values accordingly
+export TF_BACKEND_PROJECT=[GCP_PROJECT_ID] 
+export TF_BACKEND_BUCKET=[GCP_BUCKET_NAME] 
+export TF_BACKEND_LOCATION=[GCP_BUCKET_LOCATION] 
 ```
 
 ## Plan
@@ -26,7 +27,7 @@ terragrunt run-all plan
 Run the following command at root dir:
 
 ```shell
-ENVIRONMENT=dev terragrunt run-all plan    
+terragrunt run-all plan    
 ```
 
 ## Apply
@@ -34,7 +35,7 @@ ENVIRONMENT=dev terragrunt run-all plan
 Run the following command at root dir:
 
 ```shell
-ENVIRONMENT=dev terragrunt run-all apply
+terragrunt run-all apply
 ```
 
 ## Destroy
@@ -44,7 +45,7 @@ ENVIRONMENT=dev terragrunt run-all apply
 Run the following command at root dir:
 
 ```shell
-ENVIRONMENT=dev terragrunt run-all destroy
+terragrunt run-all destroy
 ```
 
 This is a preferred approach as it will destroy the modules in the right order if there are dependencies between them.
@@ -53,11 +54,15 @@ This is a preferred approach as it will destroy the modules in the right order i
 
 Go to a child `terragrunt.hcl` to be destroyed.
 
-Disable the source inheritance from root `terragrunt.hcl` by replacing the following...
+Disable the source inheritance from root `terragrunt.hcl` by changing the following...
 
 ```hcl
-include {
+include "root" {
   path = find_in_parent_folders()
+}
+
+include "backend" {
+  path = find_in_parent_folders("backend.hcl")
 }
 
 inputs = {
@@ -68,8 +73,8 @@ inputs = {
 ... with...
 
 ```hcl
-include {
-  path = find_in_parent_folders()
+include "backend" {
+  path = find_in_parent_folders("backend.hcl")
 }
 
 terraform {
@@ -80,5 +85,5 @@ terraform {
 Then, run these commands:
 
 ```shell
-ENVIRONMENT=dev terragrunt run-all apply
+terragrunt run-all apply
 ```
