@@ -1,6 +1,0 @@
-backend:
-  bucket: gcp-terragrunt-demo-1
-  project: level-clone-350517
-  location: us-central1
-
-parent_folder_id: folders/33591644343

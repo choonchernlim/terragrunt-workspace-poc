@@ -12,6 +12,15 @@ gcloud auth login && gcloud auth application-default login
 
 Update `vars/dev.yml` to point to your project and buckets.
 
+```
+export ENVIRONMENT=dev 
+export TF_BACKEND_PROJECT=level-clone-350517 
+export TF_BACKEND_BUCKET=gcp-terragrunt-demo-1 
+export TF_BACKEND_LOCATION=us-central1 
+
+terragrunt run-all plan
+```
+
 ## Plan
 
 Run the following command at root dir:
