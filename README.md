@@ -8,23 +8,23 @@ to turn some cattle into pets if needed.
 ```text
 .
 ├── backend.hcl                     # Backend plumbing (remote state, etc).
-├── terragrunt.hcl                  # Root HCL configuration where all child modules use `folder@v1.0.0` module.
+├── terragrunt.hcl                  # Root HCL where all child modules use `folder@v1.0.0` module.
 ├── tfvars                          # Env-based variables.
 │   └── dev.tfvars
 └── workspaces                      # Contains Terragrunt modules.
     ├── customer-1                  
     │   └── folder
-    │       └── terragrunt.hcl      # Uses root HCL configuration.
+    │       └── terragrunt.hcl      # Uses root HCL.
     ├── customer-2
     │   └── folder
-    │       └── terragrunt.hcl      # Overrides root HCL configuration and use `folder@v2.0.0` module.
+    │       └── terragrunt.hcl      # Overrides root HCL and use `folder@v2.0.0` module.
     └── customer-3
         ├── extra
         │   ├── main.tf
-        │   ├── terragrunt.hcl      # Requires output from sibling folder module in custom TF code.
+        │   ├── terragrunt.hcl      # Requires output from sibling module in custom TF code.
         │   └── variables.tf
         └── folder
-            └── terragrunt.hcl      # Uses root HCL configuration.
+            └── terragrunt.hcl      # Uses root HCL.
 ```
 
 ## Getting Started
