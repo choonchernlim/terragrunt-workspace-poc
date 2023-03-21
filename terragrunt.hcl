@@ -11,3 +11,31 @@ terraform {
     required_var_files = ["${get_parent_terragrunt_dir()}/tfvars/${get_env("ENVIRONMENT")}.tfvars"]
   }
 }
+
+# Generates versions.tf for all child modules
+generate "versions" {
+  path      = "versions.tf"
+  if_exists = "overwrite_terragrunt"
+
+  contents = <<EOF
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 4.0"
+    }
+    null = {
+      source = "hashicorp/null"
+    }
+    random = {
+      source = "hashicorp/random"
+    }
+  }
+}
+EOF
+}
+

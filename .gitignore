@@ -32,6 +32,7 @@ override.tf.json
 # example: *tfplan*
 
 backend.tf
+versions.tf
 .terraform
 .terragrunt-cache
 .terraform.lock.hcl
